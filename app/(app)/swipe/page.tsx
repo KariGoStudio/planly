@@ -2,17 +2,18 @@
 
 import { useMemo, useState, useCallback, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
+import Link from "next/link";
 
 import { ITEMS, CategoryId } from "@/lib/data";
 import { CATEGORIES } from "@/lib/categories";
 import SwipeCard from "@/components/SwipeCard";
-
-import Link from "next/link";
 import { saveSwipe, saveMatch } from "@/lib/store";
 
 function SwipeContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const t = useTranslations("SwipePage");
 
   const categoryId = (searchParams.get("category") || "watch-movie") as CategoryId;
 
@@ -34,7 +35,7 @@ function SwipeContent() {
         user: "A",
         category: categoryId,
         itemId: item.id,
-        value: direction,
+        value: direction
       });
 
       if (direction === "dislike") {
@@ -52,7 +53,7 @@ function SwipeContent() {
             user: "B",
             category: categoryId,
             itemId: item.id,
-            value: "like",
+            value: "like"
           });
 
           saveMatch(item);
@@ -70,14 +71,12 @@ function SwipeContent() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-900 to-black flex flex-col overflow-hidden">
-
-      {/* TOP BAR */}
       <div className="flex items-center justify-between px-5 pt-10 pb-4 text-white">
         <button
           onClick={() => router.back()}
           className="opacity-70 active:opacity-40 transition-opacity"
         >
-          ← Back
+          ← {t("back")}
         </button>
 
         <div className="flex items-center gap-2 font-bold">
@@ -89,18 +88,16 @@ function SwipeContent() {
           href="/saved"
           className="opacity-70 active:opacity-40 transition-opacity"
         >
-          Saved
+          {t("saved")}
         </Link>
       </div>
 
-      {/* 🔥 FIX PRINCIPAL DE LAYOUT */}
       <div className="flex-1 relative px-5 pb-10 min-h-0">
-
         {done ? (
           <div className="flex flex-col items-center justify-center h-full text-center pb-16">
             <div className="text-4xl mb-4">💛</div>
             <p className="text-white/60 text-sm mb-6">
-              No more cards in this category.
+              {t("emptyCategory")}
             </p>
 
             <div className="flex flex-wrap justify-center gap-2">
@@ -121,7 +118,6 @@ function SwipeContent() {
           </div>
         ) : (
           <div className="relative h-full min-h-[70vh]">
-
             {items.slice(index, index + 3).map((item, i) => (
               <div
                 key={item.id}
@@ -132,7 +128,7 @@ function SwipeContent() {
                     i === 0
                       ? "scale(1) translateY(0)"
                       : `scale(${1 - i * 0.035}) translateY(${i * -16}px)`,
-                  opacity: i === 0 ? 1 : Math.max(0.5 - i * 0.15, 0),
+                  opacity: i === 0 ? 1 : Math.max(0.5 - i * 0.15, 0)
                 }}
               >
                 <SwipeCard
@@ -143,7 +139,6 @@ function SwipeContent() {
                 />
               </div>
             ))}
-
           </div>
         )}
       </div>
@@ -152,11 +147,13 @@ function SwipeContent() {
 }
 
 export default function SwipePage() {
+  const t = useTranslations("SwipePage");
+
   return (
     <Suspense
       fallback={
         <div className="min-h-screen bg-gray-900 flex items-center justify-center text-white">
-          Loading…
+          {t("loading")}
         </div>
       }
     >

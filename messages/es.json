@@ -1,0 +1,109 @@
+{
+  "Metadata": {
+    "title": "Planly — decidid juntos",
+    "description": "La forma más sencilla de acordar qué hacer hoy."
+  },
+  "Common": {
+    "continue": "Continuar",
+    "back": "Volver",
+    "cancel": "Cancelar",
+    "save": "Guardar"
+  },
+  "LoginPage": {
+    "subtitleLine1": "Decidid qué hacer hoy —",
+    "subtitleLine2": "juntos.",
+    "featureMood": "Elegid vuestro ánimo y recibid sugerencias",
+    "featureSwipe": "Deslizad hasta que estéis de acuerdo",
+    "featureMatch": "Haced match y poned el plan en marcha",
+    "enterButton": "Entrar en Planly ✨",
+    "noAccount": "No necesitas cuenta. Solo tú y tu persona."
+  },
+  "CouplePage": {
+    "connectedTitle": "¡Estáis conectados!",
+    "connectedSubtitle": "Tu pareja está lista. Es hora de decidir qué hacer hoy.",
+    "you": "Tú",
+    "partner": "Pareja",
+    "decideTogetherButton": "Decidir juntos →",
+    "heroTitle": "Tú + alguien que te gusta",
+    "heroSubtitle": "Planly funciona mejor entre dos. Conectaos para deslizar y hacer match juntos.",
+    "startTogether": "Empezar juntos",
+    "simulateConnected": "Simula que ambos estáis conectados",
+    "connectButton": "Conectar con mi pareja ✨",
+    "or": "o",
+    "continueSolo": "Continuar solo por ahora"
+  },
+  "MoodPage": {
+    "title": "¿Cómo os sentís hoy?",
+    "subtitle": "Elegid una o varias opciones y encontraremos algo que encaje.",
+    "daySingular": "día seguido",
+    "dayPlural": "días seguidos",
+    "quickFilters": "Filtros rápidos",
+    "budget": "💸 Presupuesto",
+    "budgetFree": "Gratis / barato",
+    "budgetMedium": "Gasto normal",
+    "budgetSplurge": "Capricho 🤑",
+    "where": "📍 Dónde",
+    "stayingHome": "🏠 Quedarse en casa",
+    "goingOut": "🚗 Salir fuera",
+    "timeAvailable": "⏱ Tiempo disponible",
+    "quick": "⚡ Rápido",
+    "fewHours": "🕐 Unas horas",
+    "allNight": "🌙 Toda la noche",
+    "energyLevel": "⚡ Nivel de energía",
+    "lowEnergy": "😴 Tranquilo",
+    "highEnergy": "🔥 Con energía",
+    "pickMood": "Elige un estado para continuar",
+    "seeVibe": "Ver el plan para hoy →"
+  },
+  "CategoriesPage": {
+    "back": "Volver",
+    "sharedVibe": "✨ Vuestro plan para hoy",
+    "matchesUsualVibe": "✨ Encaja con vuestro estilo habitual",
+    "recommendedTitle": "Qué os apetece hoy",
+    "otherOptions": "O probad algo diferente",
+    "budgetFree": "💸 Gratis / barato",
+    "budgetMedium": "💰 Gasto normal",
+    "budgetSplurge": "🤑 Capricho",
+    "locationHome": "🏠 En casa",
+    "locationOut": "🚗 Fuera de casa",
+    "timeQuick": "⚡ Rápido",
+    "timeNormal": "🕐 Unas horas",
+    "timeNight": "🌙 Toda la noche",
+    "energyLow": "😴 Tranquilo",
+    "energyHigh": "🔥 Con energía"
+  },
+  "SwipePage": {
+    "back": "Volver",
+    "saved": "Guardados",
+    "emptyCategory": "No quedan más tarjetas en esta categoría.",
+    "loading": "Cargando…"
+  },
+  "SavedPage": {
+    "title": "Guardados",
+    "empty": "Todavía no hay matches guardados",
+    "backToSwipe": "← Volver a deslizar"
+  },
+  "MatchPage": {
+    "back": "Volver",
+    "planUnlocked": "Plan desbloqueado para hoy",
+    "matchTitle": "¡Es un match! 💛",
+    "itemNotFound": "No se ha encontrado el plan.",
+    "doThis": "Vamos a hacerlo ✓",
+    "keepExploring": "Seguir explorando"
+  },
+  "SwipeCard": {
+    "likeStamp": "ME GUSTA ❤️",
+    "nopeStamp": "NO ✕",
+    "dislike": "Descartar",
+    "unsave": "Quitar de guardados",
+    "saveForLater": "Guardar para luego",
+    "like": "Me gusta"
+  },
+  "MatchModal": {
+    "planUnlocked": "Plan desbloqueado para hoy",
+    "matchTitle": "¡Es un match! 💛",
+    "keepNightGoing": "Seguid con la noche",
+    "doThis": "Vamos a hacerlo ✓",
+    "keepExploring": "Seguir explorando"
+  }
+}

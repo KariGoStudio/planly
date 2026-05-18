@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { MOODS } from "@/lib/moods";
 import { requireDevAccess } from "@/lib/dev";
 import { trackMoods, getStreak } from "@/lib/memory";
@@ -14,6 +15,7 @@ type EnergyFilter = "low" | "high";
 
 export default function MoodPage() {
   const router = useRouter();
+  const t = useTranslations("MoodPage");
   const [selected, setSelected] = useState<string[]>([]);
   const [streak, setStreak] = useState(0);
   const [budget, setBudget] = useState<BudgetFilter | null>(null);
@@ -47,26 +49,23 @@ export default function MoodPage() {
   return (
     <div className="h-screen overflow-y-auto bg-gradient-to-b from-orange-50 to-rose-50">
       <div className="min-h-full flex flex-col px-5">
-
-        {/* Header */}
         <div className="pt-14 pb-6">
           <div className="flex items-center justify-between mb-3">
             <p className="text-3xl select-none">💛</p>
             {streak > 0 && (
               <span className="flex items-center gap-1.5 px-3 py-1.5 bg-orange-100 rounded-full text-orange-600 text-xs font-bold">
-                🔥 {streak} day{streak > 1 ? "s" : ""} in a row
+                🔥 {streak} {streak > 1 ? t("dayPlural") : t("daySingular")}
               </span>
             )}
           </div>
           <h1 className="text-[28px] font-bold text-gray-800 leading-tight tracking-tight">
-            How are you two feeling tonight?
+            {t("title")}
           </h1>
           <p className="text-gray-400 mt-2 text-sm">
-            Pick one or more — we&apos;ll find what fits.
+            {t("subtitle")}
           </p>
         </div>
 
-        {/* Mood grid */}
         <div className="grid grid-cols-2 gap-2.5 pb-5">
           {MOODS.map((mood) => (
             <MoodCard
@@ -78,28 +77,24 @@ export default function MoodPage() {
           ))}
         </div>
 
-        {/* Quick Filters — slide in when moods are selected */}
         {selected.length > 0 && (
           <div className="pb-5 space-y-4 animate-slide-up">
             <div className="flex items-center gap-3">
               <div className="flex-1 h-px bg-gray-200" />
               <p className="text-[11px] font-bold text-gray-400 uppercase tracking-widest shrink-0">
-                Quick filters
+                {t("quickFilters")}
               </p>
               <div className="flex-1 h-px bg-gray-200" />
             </div>
 
-            {/* Budget */}
             <div className="space-y-2">
-              <p className="text-xs text-gray-500 font-medium">💸 Budget</p>
+              <p className="text-xs text-gray-500 font-medium">{t("budget")}</p>
               <div className="flex flex-wrap gap-2">
-                {(
-                  [
-                    { id: "free" as BudgetFilter, label: "Free / Cheap" },
-                    { id: "medium" as BudgetFilter, label: "Normal spend" },
-                    { id: "splurge" as BudgetFilter, label: "Splurging 🤑" },
-                  ] as const
-                ).map((opt) => (
+                {[
+                  { id: "free" as BudgetFilter, label: t("budgetFree") },
+                  { id: "medium" as BudgetFilter, label: t("budgetMedium") },
+                  { id: "splurge" as BudgetFilter, label: t("budgetSplurge") }
+                ].map((opt) => (
                   <button
                     key={opt.id}
                     onClick={() => setBudget(budget === opt.id ? null : opt.id)}
@@ -115,16 +110,13 @@ export default function MoodPage() {
               </div>
             </div>
 
-            {/* Location */}
             <div className="space-y-2">
-              <p className="text-xs text-gray-500 font-medium">📍 Where</p>
+              <p className="text-xs text-gray-500 font-medium">{t("where")}</p>
               <div className="flex flex-wrap gap-2">
-                {(
-                  [
-                    { id: "home" as LocationFilter, label: "🏠 Staying home" },
-                    { id: "out" as LocationFilter, label: "🚗 Going out" },
-                  ] as const
-                ).map((opt) => (
+                {[
+                  { id: "home" as LocationFilter, label: t("stayingHome") },
+                  { id: "out" as LocationFilter, label: t("goingOut") }
+                ].map((opt) => (
                   <button
                     key={opt.id}
                     onClick={() =>
@@ -142,17 +134,16 @@ export default function MoodPage() {
               </div>
             </div>
 
-            {/* Time */}
             <div className="space-y-2">
-              <p className="text-xs text-gray-500 font-medium">⏱ Time available</p>
+              <p className="text-xs text-gray-500 font-medium">
+                {t("timeAvailable")}
+              </p>
               <div className="flex flex-wrap gap-2">
-                {(
-                  [
-                    { id: "quick" as TimeFilter, label: "⚡ Quick" },
-                    { id: "normal" as TimeFilter, label: "🕐 A few hours" },
-                    { id: "night" as TimeFilter, label: "🌙 All night" },
-                  ] as const
-                ).map((opt) => (
+                {[
+                  { id: "quick" as TimeFilter, label: t("quick") },
+                  { id: "normal" as TimeFilter, label: t("fewHours") },
+                  { id: "night" as TimeFilter, label: t("allNight") }
+                ].map((opt) => (
                   <button
                     key={opt.id}
                     onClick={() => setTime(time === opt.id ? null : opt.id)}
@@ -168,16 +159,15 @@ export default function MoodPage() {
               </div>
             </div>
 
-            {/* Energy */}
             <div className="space-y-2">
-              <p className="text-xs text-gray-500 font-medium">⚡ Energy level</p>
+              <p className="text-xs text-gray-500 font-medium">
+                {t("energyLevel")}
+              </p>
               <div className="flex flex-wrap gap-2">
-                {(
-                  [
-                    { id: "low" as EnergyFilter, label: "😴 Low key" },
-                    { id: "high" as EnergyFilter, label: "🔥 High energy" },
-                  ] as const
-                ).map((opt) => (
+                {[
+                  { id: "low" as EnergyFilter, label: t("lowEnergy") },
+                  { id: "high" as EnergyFilter, label: t("highEnergy") }
+                ].map((opt) => (
                   <button
                     key={opt.id}
                     onClick={() => setEnergy(energy === opt.id ? null : opt.id)}
@@ -195,10 +185,8 @@ export default function MoodPage() {
           </div>
         )}
 
-        {/* Spacer to push CTA down */}
         <div className="flex-1" />
 
-        {/* CTA — sticks to bottom while content scrolls */}
         <div className="sticky bottom-0 py-5 pb-8 bg-gradient-to-t from-rose-50 via-rose-50 to-transparent">
           <button
             onClick={handleContinue}
@@ -209,9 +197,7 @@ export default function MoodPage() {
                 : "bg-gray-200/80 text-gray-400 cursor-not-allowed"
             }`}
           >
-            {selected.length === 0
-              ? "Pick a mood to continue"
-              : "See tonight’s vibe →"}
+            {selected.length === 0 ? t("pickMood") : t("seeVibe")}
           </button>
 
           {selected.length > 0 && (
@@ -230,7 +216,6 @@ export default function MoodPage() {
             </div>
           )}
         </div>
-
       </div>
     </div>
   );
