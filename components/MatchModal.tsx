@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useTranslations } from "next-intl";
 import type { SwipeItem, CategoryId } from "@/lib/data";
 import { CATEGORIES, AFTER_MATCH } from "@/lib/categories";
 import { useRouter } from "next/navigation";
@@ -14,36 +15,32 @@ interface Props {
 
 export default function MatchModal({ item, category, onKeepSwiping }: Props) {
   const router = useRouter();
+  const t = useTranslations("MatchModal");
   const cat = CATEGORIES.find((c) => c.id === category)!;
   const suggestions = AFTER_MATCH[category] ?? [];
   const [showConfetti, setShowConfetti] = useState(true);
 
   useEffect(() => {
-    const t = setTimeout(() => setShowConfetti(false), 3500);
-    return () => clearTimeout(t);
+    const timeout = setTimeout(() => setShowConfetti(false), 3500);
+    return () => clearTimeout(timeout);
   }, []);
 
   return (
     <div className="fixed inset-0 z-50 flex flex-col bg-black/75 backdrop-blur-md">
       {showConfetti && <Confetti />}
 
-      {/* Glow */}
       <div
         className={`absolute inset-0 bg-gradient-to-b ${cat.gradient} opacity-25 pointer-events-none`}
       />
 
-      {/* Content */}
       <div className="relative flex-1 flex flex-col items-center justify-center px-6">
-
-        {/* Match label */}
         <p className="text-white/60 text-xs font-bold tracking-[0.2em] uppercase mb-2 animate-slide-up">
-          Tonight&apos;s plan unlocked
+          {t("planUnlocked")}
         </p>
         <p className="text-white text-3xl font-black mb-6 animate-slide-up">
-          It&apos;s a match 💛
+          {t("matchTitle")}
         </p>
 
-        {/* Item card */}
         <div
           className={`w-full max-w-sm rounded-3xl overflow-hidden shadow-2xl animate-pop-in bg-gradient-to-br ${item.bg} ring-4 ring-white/20`}
         >
@@ -54,7 +51,9 @@ export default function MatchModal({ item, category, onKeepSwiping }: Props) {
             <h2 className="text-2xl font-bold text-white">{item.title}</h2>
             <p className="text-white/70 text-sm mt-1">{item.subtitle}</p>
             {item.meta && (
-              <p className="text-white/50 text-xs mt-0.5 font-medium">{item.meta}</p>
+              <p className="text-white/50 text-xs mt-0.5 font-medium">
+                {item.meta}
+              </p>
             )}
             <div className="flex flex-wrap justify-center gap-2 mt-4">
               {item.tags.map((tag) => (
@@ -69,20 +68,16 @@ export default function MatchModal({ item, category, onKeepSwiping }: Props) {
           </div>
         </div>
 
-        {/* Description */}
         <p className="text-white/60 text-sm mt-5 text-center max-w-[280px] leading-relaxed">
           {item.description}
         </p>
       </div>
 
-      {/* Bottom panel */}
       <div className="relative bg-white rounded-t-[2rem] px-6 pt-6 pb-10 shadow-2xl">
-
-        {/* After-match suggestions */}
         {suggestions.length > 0 && (
           <div className="mb-5">
             <p className="text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-3">
-              Keep the night going
+              {t("keepNightGoing")}
             </p>
             <div className="space-y-2">
               {suggestions.map((s) => {
@@ -100,8 +95,12 @@ export default function MatchModal({ item, category, onKeepSwiping }: Props) {
                       {sugCat.emoji}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm font-semibold text-gray-700">{s.label}</p>
-                      <p className="text-xs text-gray-400 truncate">{sugCat.tagline}</p>
+                      <p className="text-sm font-semibold text-gray-700">
+                        {s.label}
+                      </p>
+                      <p className="text-xs text-gray-400 truncate">
+                        {sugCat.tagline}
+                      </p>
                     </div>
                     <span className="text-gray-300 text-sm">→</span>
                   </button>
@@ -111,19 +110,18 @@ export default function MatchModal({ item, category, onKeepSwiping }: Props) {
           </div>
         )}
 
-        {/* Primary CTA */}
         <button
           onClick={() => router.push("/mood")}
           className={`w-full py-4 rounded-2xl bg-gradient-to-r ${cat.gradient} text-white font-bold shadow-sm active:scale-[0.98] transition-all`}
         >
-          Let&apos;s do this ✓
+          {t("doThis")}
         </button>
 
         <button
           onClick={onKeepSwiping}
           className="w-full py-3 rounded-2xl bg-transparent text-gray-400 font-medium text-sm active:opacity-60 transition-opacity mt-2"
         >
-          Keep exploring
+          {t("keepExploring")}
         </button>
       </div>
     </div>

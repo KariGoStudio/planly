@@ -2,18 +2,20 @@
 
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { useTranslations } from "next-intl";
 import { ITEMS } from "@/lib/data";
 
 export default function MatchPage() {
   const params = useParams();
   const router = useRouter();
+  const t = useTranslations("MatchPage");
   const id = params.id as string;
 
   const [showConfetti, setShowConfetti] = useState(true);
 
   useEffect(() => {
-    const t = setTimeout(() => setShowConfetti(false), 3000);
-    return () => clearTimeout(t);
+    const timeout = setTimeout(() => setShowConfetti(false), 3000);
+    return () => clearTimeout(timeout);
   }, []);
 
   const allItems = Object.values(ITEMS).flat();
@@ -21,8 +23,6 @@ export default function MatchPage() {
 
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-b from-gray-900 to-gray-800 text-white">
-
-      {/* Confetti */}
       {showConfetti && (
         <div className="fixed inset-0 pointer-events-none z-50 overflow-hidden">
           {Array.from({ length: 20 }).map((_, i) => (
@@ -35,38 +35,46 @@ export default function MatchPage() {
                 width: `${8 + (i % 3) * 4}px`,
                 height: `${8 + (i % 3) * 4}px`,
                 background: ["#FF6B6B", "#FFD93D", "#6BCB77", "#4D96FF", "#FF922B"][i % 5],
-                animationDelay: `${i * 0.1}s`,
+                animationDelay: `${i * 0.1}s`
               }}
             />
           ))}
         </div>
       )}
 
-      {/* Top bar */}
       <div className="flex items-center px-5 pt-10 pb-4">
-        <button onClick={() => router.back()} className="opacity-60 text-sm active:opacity-30 transition-opacity">
-          ← Back
+        <button
+          onClick={() => router.back()}
+          className="opacity-60 text-sm active:opacity-30 transition-opacity"
+        >
+          ← {t("back")}
         </button>
       </div>
 
-      {/* Main content */}
       <div className="flex-1 flex flex-col items-center justify-center px-6 pb-6">
         <p className="text-white/60 text-xs font-bold tracking-[0.2em] uppercase mb-2">
-          Tonight&apos;s plan unlocked
+          {t("planUnlocked")}
         </p>
-        <h1 className="text-3xl font-black mb-6">It&apos;s a match 💛</h1>
+        <h1 className="text-3xl font-black mb-6">{t("matchTitle")}</h1>
 
         {item ? (
           <>
             <div className={`w-full max-w-sm rounded-3xl overflow-hidden shadow-2xl bg-gradient-to-br ${item.bg} ring-4 ring-white/20`}>
               <div className="p-8 text-center">
-                <div className="text-7xl mb-4 select-none animate-bounce-slow">{item.emoji}</div>
+                <div className="text-7xl mb-4 select-none animate-bounce-slow">
+                  {item.emoji}
+                </div>
                 <h2 className="text-2xl font-bold">{item.title}</h2>
                 <p className="text-white/70 text-sm mt-1">{item.subtitle}</p>
-                {item.meta && <p className="text-white/50 text-xs mt-0.5">{item.meta}</p>}
+                {item.meta && (
+                  <p className="text-white/50 text-xs mt-0.5">{item.meta}</p>
+                )}
                 <div className="flex flex-wrap justify-center gap-2 mt-4">
                   {item.tags.map((tag) => (
-                    <span key={tag} className="px-3 py-1 rounded-full bg-white/15 text-white/80 text-xs font-medium">
+                    <span
+                      key={tag}
+                      className="px-3 py-1 rounded-full bg-white/15 text-white/80 text-xs font-medium"
+                    >
                       {tag}
                     </span>
                   ))}
@@ -78,26 +86,24 @@ export default function MatchPage() {
             </p>
           </>
         ) : (
-          <p className="text-white/50">Item not found.</p>
+          <p className="text-white/50">{t("itemNotFound")}</p>
         )}
       </div>
 
-      {/* Bottom panel */}
       <div className="bg-white rounded-t-[2rem] px-6 pt-6 pb-10 shadow-2xl">
         <button
           onClick={() => router.push("/mood")}
           className="w-full py-4 rounded-2xl bg-gradient-to-r from-orange-400 to-rose-500 text-gray-900 font-bold shadow-sm active:scale-[0.98] transition-all"
         >
-          Let&apos;s do this ✓
+          {t("doThis")}
         </button>
         <button
           onClick={() => router.back()}
           className="w-full py-3 rounded-2xl text-gray-400 font-medium text-sm active:opacity-60 transition-opacity mt-2"
         >
-          Keep exploring
+          {t("keepExploring")}
         </button>
       </div>
-
     </div>
   );
 }

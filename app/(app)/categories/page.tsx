@@ -2,13 +2,14 @@
 
 import { useEffect, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { MOODS } from "@/lib/moods";
 import {
   CATEGORIES,
   getRecommendedCategories,
   getVibeMessage,
   getMoodMatchCopy,
-  type PlanCategory,
+  type PlanCategory
 } from "@/lib/categories";
 import { requireDevAccess } from "@/lib/dev";
 import { getPersonalizedHint } from "@/lib/memory";
@@ -54,28 +55,32 @@ function applyFilterBoost(
     .map(({ cat }) => cat);
 }
 
-const BUDGET_LABELS: Record<string, string> = {
-  free: "💸 Free / Cheap",
-  medium: "💰 Normal spend",
-  splurge: "🤑 Splurging",
-};
-const LOCATION_LABELS: Record<string, string> = {
-  home: "🏠 Staying home",
-  out: "🚗 Going out",
-};
-const TIME_LABELS: Record<string, string> = {
-  quick: "⚡ Quick",
-  normal: "🕐 Few hours",
-  night: "🌙 All night",
-};
-const ENERGY_LABELS: Record<string, string> = {
-  low: "😴 Low key",
-  high: "🔥 High energy",
-};
-
 function CategoriesContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
+  const t = useTranslations("CategoriesPage");
+
+  const BUDGET_LABELS: Record<string, string> = {
+    free: t("budgetFree"),
+    medium: t("budgetMedium"),
+    splurge: t("budgetSplurge")
+  };
+
+  const LOCATION_LABELS: Record<string, string> = {
+    home: t("locationHome"),
+    out: t("locationOut")
+  };
+
+  const TIME_LABELS: Record<string, string> = {
+    quick: t("timeQuick"),
+    normal: t("timeNormal"),
+    night: t("timeNight")
+  };
+
+  const ENERGY_LABELS: Record<string, string> = {
+    low: t("energyLow"),
+    high: t("energyHigh")
+  };
 
   const moodParam = searchParams.get("moods") ?? "";
   const budget = searchParams.get("budget");
@@ -99,7 +104,7 @@ function CategoriesContent() {
     budget ? BUDGET_LABELS[budget] : null,
     location ? LOCATION_LABELS[location] : null,
     time ? TIME_LABELS[time] : null,
-    energy ? ENERGY_LABELS[energy] : null,
+    energy ? ENERGY_LABELS[energy] : null
   ].filter(Boolean) as string[];
 
   useEffect(() => {
@@ -108,29 +113,25 @@ function CategoriesContent() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-orange-50 to-rose-50 flex flex-col px-5">
-
-      {/* Header */}
       <div className="pt-12 pb-4">
         <button
           onClick={() => router.back()}
           className="text-sm text-gray-400 font-medium mb-4 flex items-center gap-1 active:opacity-60 transition-opacity"
         >
-          ← Back
+          ← {t("back")}
         </button>
       </div>
 
-      {/* Shared Vibe Hero */}
       {vibe && (
         <div
           className={`relative overflow-hidden rounded-3xl mb-5 bg-gradient-to-br ${heroGradient} p-6 shadow-lg`}
         >
-          {/* Background emoji decoration */}
           <div className="absolute -right-4 -bottom-6 text-[90px] opacity-15 pointer-events-none select-none leading-none">
             {vibe.emoji}
           </div>
 
           <p className="text-white/70 text-[11px] font-bold tracking-[0.15em] uppercase mb-2">
-            ✨ Shared vibe tonight
+            {t("sharedVibe")}
           </p>
 
           <h2 className="text-[22px] font-black text-white leading-tight">
@@ -141,7 +142,6 @@ function CategoriesContent() {
             {vibe.subline}
           </p>
 
-          {/* Mood pills */}
           {selectedMoods.length > 0 && (
             <div className="flex flex-wrap gap-1.5 mt-4">
               {selectedMoods.map((m) => (
@@ -155,7 +155,6 @@ function CategoriesContent() {
             </div>
           )}
 
-          {/* Filter context pills */}
           {filterPills.length > 0 && (
             <div className="flex flex-wrap gap-1.5 mt-2">
               {filterPills.map((label) => (
@@ -169,21 +168,19 @@ function CategoriesContent() {
             </div>
           )}
 
-          {/* Personalized hint */}
           {personalizedHint && (
             <div className="mt-3 inline-flex items-center gap-1.5 px-3 py-1.5 bg-white/20 rounded-full">
               <span className="text-[11px] text-white/90 font-bold">
-                ✨ Matches your usual vibe
+                {t("matchesUsualVibe")}
               </span>
             </div>
           )}
         </div>
       )}
 
-      {/* Recommended categories */}
       <div className="space-y-2.5 pb-4">
         <p className="text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-2">
-          What sounds good tonight
+          {t("recommendedTitle")}
         </p>
         {suggested.map((cat, i) => {
           const matchCopy = getMoodMatchCopy(cat.id, selectedMoodIds);
@@ -211,11 +208,10 @@ function CategoriesContent() {
         })}
       </div>
 
-      {/* Other options */}
       {remaining.length > 0 && (
         <div className="pb-10">
           <p className="text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-3">
-            Or try something else
+            {t("otherOptions")}
           </p>
           <div className="grid grid-cols-2 gap-2.5">
             {remaining.map((cat) => (
